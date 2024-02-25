@@ -6,67 +6,49 @@ const canvas = document.getElementById("mazeCanvas");
 const ctx = canvas.getContext("2d");
 
 
-//will create a new maze object which is initially all blocked, and then use
-//DFS backtracking algorithm to generate maze
-
 function generateMaze(rows, cols, tileSize, spacing){
     const maze = new Maze(rows, cols, tileSize, spacing);
     let currentTile = maze.getTile(getRandomInt(rows), getRandomInt(cols));
     currentTile.setExplored();
-    let unexploredTiles = (cols * rows) - 1;
+    let unexploredTiles = (cols * rows) - 3;
     let stack = [currentTile];
-
+    
     while(unexploredTiles > 0){
-        console.log("looping again");
-        console.log(currentTile);
-        console.log("stackcount", stack.length);
+
         let neighborOptions = neighbors(maze,currentTile);
         if(neighborOptions.length > 0){
-            console.log("here 1");
             //pick random neighbor
             //block it or unblock it and add to stack
             //set to visited and decremend unexplored tiles
             let randomDirection = neighborOptions[getRandomInt(neighborOptions.length)];
             let newRow = currentTile.getRow() + parseInt(randomDirection[0]);
             let newCol = currentTile.getCol() + parseInt(randomDirection[1]);
-            console.log("Row:", newRow);
-            console.log("Col:", newCol);
             currentTile = maze.getTile(newRow, newCol);
             currentTile.setExplored();
             unexploredTiles--;
-            console.log("UT:", unexploredTiles);
             if(getRandomInt(10) < 7){
-                console.log("unblocked");
                 currentTile.setUnblocked();
                 stack.push(currentTile);
             } else {
-                console.log("blocked");
                 currentTile.setBlocked();
                 if(stack.length > 0){
                     currentTile = stack[stack.length-1]
-                    console.log("New1", currentTile);
                 } else {
                     currentTile = findRandomTile(maze);
-                    console.log("New2", currentTile);
                     currentTile.setExplored();
                     unexploredTiles--;
                 }
-                
-                console.log("irghtere", currentTile);
             }
         } else if(stack.length > 0){
-            console.log("here 2");
              //go back up the stack one, set to current node, pop from stack
             currentTile = stack.pop();
            
         } else {
-            console.log('here 3');
             //find random node and set to current
             //set to visited and decremenet unexplored tiles
             currentTile = findRandomTile(maze);
             currentTile.setExplored();
             unexploredTiles--;
-            console.log("new tile", unexploredTiles);
         }
         drawMaze(maze);
 
@@ -155,14 +137,4 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-
-//Testing
-// const maze = generateMaze(10,10,30,1.1);
-// drawMaze(maze);
-// let tile = maze.getTile(4,8);
-// tile.setExplored();
-// tile = maze.getTile(5,8);
-// tile.setExplored();
-// drawMaze(maze);
-
-generateMaze(10,10,30,1.1);
+generateMaze(10,10,50,1);

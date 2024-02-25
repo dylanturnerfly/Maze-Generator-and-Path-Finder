@@ -15,6 +15,8 @@ class Tile {
     //Goal
     setStart(){
         this.start = true;
+        this.blocked = true;
+        this.explored = true;
     }
 
     setGoal(){
@@ -22,6 +24,8 @@ class Tile {
             return false;
         } else {
             this.goal = true;
+            this.blocked = true;
+            this.explored = true;
             return true;
         }
         
