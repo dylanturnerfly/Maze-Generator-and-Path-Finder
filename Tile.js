@@ -1,5 +1,5 @@
 class Tile {
-    constructor(row, col, explored = false, blocked = null, parent = null, h_value = 0, g_value = 0) {
+    constructor(row, col, explored = false, blocked = false, parent = null, h_value = 0, g_value = 0) {
         this.row = row;
         this.col = col;
         this.explored = explored; //whether is is explored or not
@@ -8,6 +8,23 @@ class Tile {
         this.h_value = h_value;  //estimated cost from tile to goal
         this.g_value = g_value; //path cost from start to tile
         this.f_value = this.h_value + this.g_value; //h + g, gives estimated cost of the cheapest solution til this tile
+        this.start = false;
+        this.goal = false;
+    }
+
+    //Goal
+    setStart(){
+        this.start = true;
+    }
+
+    setGoal(){
+        if(this.start){
+            return false;
+        } else {
+            this.goal = true;
+            return true;
+        }
+        
     }
 
     //Coordinates

@@ -14,44 +14,59 @@ function generateMaze(rows, cols, tileSize, spacing){
     let currentTile = maze.getTile(getRandomInt(rows), getRandomInt(cols));
     currentTile.setExplored();
     let unexploredTiles = (cols * rows) - 1;
-    let stack = [];
+    let stack = [currentTile];
 
     while(unexploredTiles > 0){
+        console.log("looping again");
+        console.log(currentTile);
+        console.log("stackcount", stack.length);
         let neighborOptions = neighbors(maze,currentTile);
         if(neighborOptions.length > 0){
+            console.log("here 1");
             //pick random neighbor
             //block it or unblock it and add to stack
             //set to visited and decremend unexplored tiles
             let randomDirection = neighborOptions[getRandomInt(neighborOptions.length)];
             let newRow = currentTile.getRow() + parseInt(randomDirection[0]);
             let newCol = currentTile.getCol() + parseInt(randomDirection[1]);
+            console.log("Row:", newRow);
+            console.log("Col:", newCol);
             currentTile = maze.getTile(newRow, newCol);
             currentTile.setExplored();
             unexploredTiles--;
+            console.log("UT:", unexploredTiles);
             if(getRandomInt(10) < 7){
+                console.log("unblocked");
                 currentTile.setUnblocked();
                 stack.push(currentTile);
             } else {
+                console.log("blocked");
                 currentTile.setBlocked();
+                if(stack.length > 0){
+                    currentTile = stack[stack.length-1]
+                    console.log("New1", currentTile);
+                } else {
+                    currentTile = findRandomTile(maze);
+                    console.log("New2", currentTile);
+                    currentTile.setExplored();
+                    unexploredTiles--;
+                }
+                
+                console.log("irghtere", currentTile);
             }
         } else if(stack.length > 0){
+            console.log("here 2");
              //go back up the stack one, set to current node, pop from stack
             currentTile = stack.pop();
            
         } else {
+            console.log('here 3');
             //find random node and set to current
             //set to visited and decremenet unexplored tiles
-            outerloop: for(let i = 0; i < rows; i++){
-                for(let j = 0; j < cols; j++){
-                    if(!maze.getTile(i,j).getExplore()){
-                        currentTile = maze.getTile(i,j);
-                        currentTile.setExplored();
-                        unexploredTiles--;
-                        console.log("new tile", unexploredTiles);
-                        break outerloop;
-                    }
-                }
-            }
+            currentTile = findRandomTile(maze);
+            currentTile.setExplored();
+            unexploredTiles--;
+            console.log("new tile", unexploredTiles);
         }
         drawMaze(maze);
 
@@ -86,6 +101,20 @@ function neighbors(maze, tile) {
     return neighbors;
 }
 
+function findRandomTile(maze){
+    for(let i = 0; i < maze.getRows(); i++){
+        for(let j = 0; j < maze.getCols(); j++){
+            if(!maze.getTile(i,j).getExplore()){
+                if(neighbors(maze,maze.getTile(i,j)).length === 0){
+                    maze.getTile(i,j).setBlocked();
+                    maze.getTile(i,j).setExplored();
+                }
+                return maze.getTile(i,j);
+            }
+        }
+    }
+}
+
 
 //Display Maze
 //  Grey = unexplored (think fog)
@@ -103,7 +132,11 @@ function drawMaze(maze){
     //Iterate through Maze and draw each tile appropriate color
     for(let i = 0; i < rows; i++){
         for(let j = 0; j < cols; j++){
-            if(maze.getTile(i,j).explored){
+            if(maze.getTile(i,j).start){
+                ctx.fillStyle = "green";
+            } else if(maze.getTile(i,j).goal){
+                ctx.fillStyle = "red";
+            }else if(maze.getTile(i,j).explored){
                 if(maze.getTile(i,j).blocked){
                     ctx.fillStyle = "black";
                 } else{
