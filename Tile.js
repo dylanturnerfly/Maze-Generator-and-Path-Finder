@@ -10,9 +10,10 @@ class Tile {
         this.f_value = this.h_value + this.g_value; //h + g, gives estimated cost of the cheapest solution til this tile
         this.start = false;
         this.goal = false;
+        this.current = false;
     }
 
-    //Goal
+    //Special Colors
     setStart(){
         this.start = true;
         this.blocked = true;
@@ -28,7 +29,14 @@ class Tile {
             this.explored = true;
             return true;
         }
-        
+    }
+
+    setCurrent(){
+        this.current = true;
+    }
+
+    removeCurrent(){
+        this.current = false;
     }
 
     //Coordinates
