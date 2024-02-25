@@ -5,19 +5,19 @@ class Tile {
         this.explored = explored; //whether is is explored or not
         this.blocked = blocked; //whether it is blocked or not
         this.parent = parent; //pointer to parent tile
-        this.h_value = h_value;  //estimated cost from tile to goal
-        this.g_value = g_value; //path cost from start to tile
-        this.f_value = this.h_value + this.g_value; //h + g, gives estimated cost of the cheapest solution til this tile
+        this.h_value = null;  //estimated cost from tile to goal
+        this.g_value = null; //path cost from start to tile
+        this.f_value = null; //h + g, gives estimated cost of the cheapest solution til this tile
         this.start = false;
         this.goal = false;
         this.current = false;
+        this.solution = false;
     }
 
     //Special Colors
     setStart(){
         this.start = true;
-        this.blocked = true;
-        this.explored = true;
+        // this.explored = true;
     }
 
     setGoal(){
@@ -25,10 +25,13 @@ class Tile {
             return false;
         } else {
             this.goal = true;
-            this.blocked = true;
-            this.explored = true;
+            // this.explored = true;
             return true;
         }
+    }
+
+    isGoal(){
+        return this.goal;
     }
 
     setCurrent(){
@@ -106,8 +109,12 @@ class Tile {
         return this.f_value;
     }
 
-    setValueF(f_value){
-        this.f_value = f_value;
+    setValueF(){
+        this.f_value = this.g_value + this.h_value;
+    }
+
+    setSolution(){
+        this.solution = true;
     }
 }
 

@@ -4,18 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maze Generation Visualization</title>
-    <style>
-        canvas {
-            border: 1px solid black;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<h1>Maze Generator</h1>
+<h1>Intro to AI - Maze Generator</h1>
 <body>
+    <h2>Generate a single maze</h2>
     <canvas id="mazeCanvas" width="500" height="500"></canvas>
     <br>
     <button id="generateStep" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Single Step</button>
     <button id="generateFull" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Skip Forward</button>
+    <br>
+    <canvas id="solutionCanvas" width="500" height="500"></canvas>
+    <br>
+    <button id="generateStep2" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Single Step</button>
+    <button id="generateFull2" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Skip Forward</button>
+    <br>
+
+
+    <h2>Generate 50 Solved Mazes</h2>
+    <button id="generateButton" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Regenerate Mazes</button>
+    <button id="solveMaze1" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Solve: Tiebreaking with lower g_values</button>
+    <button id="solveMaze2" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Solve: Tiebreaking with higher g_values</button>
+    <button id="solveMaze3" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Solve: Tiebreaking with lower g_values</button>
+
+
+    <div id="maze-container"></div>
+    <div id="maze-container2"></div>
+
 
     <script type="module" src="./Homework1.js"></script>
 </body>
