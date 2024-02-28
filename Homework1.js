@@ -17,7 +17,7 @@ function generateMazes() {
     solvedMazes = [];
     let attempts = 0;
     const mazeSize = 25; //size of maze
-    const maxMazes =300; //amount of mazes to create
+    const maxMazes =50; //amount of mazes to create
     const maxAttempts = 1000; //prevent infinite loop
 
     //loop until enouge solvable mazes are generated
@@ -364,6 +364,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 clearInterval(intervalId);
                 maze_to_solve.getCompleteSolution();
                 console.log("Instant Solve");   
+                console.log("Total Tiles Explored:", maze_to_solve.totalExplored);
                 solved1 = true;
             }, 50); 
         } else {
@@ -387,17 +388,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
-    //FAVORING G CHECKBOX
-    var higherG = document.getElementById('higherG');
-    higherG.addEventListener('change', function() {
-        if(higherG.checked) {
-            console.log("Favor Higher G Values")
-            favorHigherG = true;
-        } else {
-            console.log("Favor Lower G Values")
-            favorHigherG = false;
-        }
-    });
+    // //FAVORING G CHECKBOX
+    // var higherG = document.getElementById('higherG');
+    // higherG.addEventListener('change', function() {
+    //     if(higherG.checked) {
+    //         console.log("Favor Higher G Values")
+    //         favorHigherG = true;
+    //     } else {
+    //         console.log("Favor Lower G Values")
+    //         favorHigherG = false;
+    //     }
+    // });
 });
 
 ////----------/////----------////-----------//////----------/////
