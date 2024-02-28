@@ -6,27 +6,100 @@
     <title>Maze Generation Visualization</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<h1>Intro to AI - Maze Generator</h1>
+<style>
+.checkbox-wrapper {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 20px; 
+    font-weight: bold;
+}
+
+.checkbox-custom {
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+}
+
+.checkbox-wrapper label {
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 25px; 
+}
+
+.checkbox-wrapper label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 25px;
+    height: 25px;
+    background-color: #fff;
+    border: 2px solid #555;
+    border-radius: 5px;
+}
+
+.checkbox-wrapper label {
+    position: relative;
+    padding-left: 35px; /* Space for the custom checkbox */
+    cursor: pointer;
+    display: inline-block;
+    line-height: 30px; /* Adjust this value to change the line height */
+    font-size: 16px; /* Adjust font size as needed */
+}
+
+.checkbox-custom:checked + label::before {
+    background-color: lightgrey; /* Checked color */
+    /* Here you can add a checkmark with a background-image or other CSS */
+}
+</style>
 <body>
-    <h2>Generate a single maze</h2>
+    <h1 style="font-size:70px;">Intro to AI - Homework 1</h1>
+    
+    
+    <h1 style="font-size: 50px;">Single Maze Display</h1>
+    <h2>Generating</h2>
+    <button id="regenerateSingle" style="padding: 10px 20px; background-color: lightblue; color: black; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;font-weight: bold;">New Maze</button>
+    <button id="generateStep" style="padding: 10px 20px; background-color: lightblue; color: black; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;font-weight: bold;">Single Step</button>
+    <button id="generateFull" style="padding: 10px 20px; background-color: lightblue; color: black; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;font-weight: bold;">Fast Forward</button>
+    <button id="generateInstant" style="padding: 10px 20px; background-color: lightblue; color: black; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;font-weight: bold;">Instant Generate</button>
+    <div class="checkbox-wrapper">
+        <input type="checkbox" id="autoGenerateCheckbox" name="autoGenerateCheckbox" class="checkbox-custom">
+        <label for="autoGenerateCheckbox">Auto Generate</label>
+    </div>
+
+    <h2>Solving</h2>
+    <button id="unsolve" style="padding: 10px 20px; background-color: lightcoral; color: black; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;font-weight: bold;">Unsolve</button>
+    <button id="swapGoal" style="padding: 10px 20px; background-color: lightcoral; color: black; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;font-weight: bold;">Swap Goal/Start</button>
+    <button id="generateStep2" style="padding: 10px 20px; background-color: lightcoral; color: black; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;font-weight: bold;">Single Step</button>
+    <button id="generateFull2" style="padding: 10px 20px; background-color: lightcoral; color: black; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;font-weight: bold;">Fast Forward</button>
+    <button id="instantSolve" style="padding: 10px 20px; background-color: lightcoral; color: black; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;font-weight: bold;">Instant Solve</button>
+    <div class="checkbox-wrapper">
+        <input type="checkbox" id="adaptiveCheckbox" name="adaptiveCheckbox" class="checkbox-custom">
+        <label for="adaptiveCheckbox">Adaptive Heuristic</label>
+    </div>
+    <div class="checkbox-wrapper">
+        <input type="checkbox" id="higherG" name="higherG" class="checkbox-custom">
+        <label for="higherG">Favor Higher G</label>
+    </div>
+
+    <br><br>
     <canvas id="mazeCanvas" width="500" height="500"></canvas>
     <br>
-    <button id="generateStep" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Single Step</button>
-    <button id="generateFull" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Skip Forward</button>
-    <br>
-    <canvas id="solutionCanvas" width="500" height="500"></canvas>
-    <br>
-    <button id="generateStep2" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Single Step</button>
-    <button id="generateFull2" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Skip Forward</button>
-    <br>
 
+    <h1 style="font-size:60px;">Custom 50 Maze Display</h1>
+    
+    <!-- <div id="averageExplored">Average Tiles Explored: <span id="avgTiles">0</span></div> -->
+    
+    <button id="generateButton" style="padding: 20px 30px; background-color: lightblue; color: black; border: none; border-radius: 5px; font-size: 24px; cursor: pointer;font-weight: bold;">Regenerate Mazes</button>
+    <button id="flipButton" style="padding: 20px 30px; background-color: lightblue; color: black; border: none; border-radius: 5px; font-size: 24px; cursor: pointer;font-weight: bold;">Swap Start and Goal</button>
 
-    <h2>Generate 50 Solved Mazes</h2>
-    <button id="generateButton" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Regenerate Mazes</button>
-    <button id="solveMaze1" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Solve: Tiebreaking with lower g_values</button>
-    <button id="solveMaze2" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Solve: Tiebreaking with higher g_values</button>
-    <button id="solveMaze3" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">Solve: Tiebreaking with lower g_values</button>
-
+    <br><br>
+    <button id="solveMaze1" style="padding: 20px 30px; background-color: lightgreen; color: black; border: none; border-radius: 5px; font-size: 24px; cursor: pointer;font-weight: bold;">Repeated A*: Tiebreaking favors lower g_values</button>
+    <br><br>
+    <button id="solveMaze2" style="padding: 20px 30px; background-color: lightcoral; color: black; border: none; border-radius: 5px; font-size: 24px; cursor: pointer;font-weight: bold;">Repeated A*: Tiebreaking favors higher g_values</button>
+    <br><br>
 
     <div id="maze-container"></div>
     <div id="maze-container2"></div>

@@ -72,6 +72,14 @@ class Maze {
     getGoal(){
         return this.goal;
     }
+
+    setStart(start){
+        this.start = start;
+    }
+
+    setGoal(goal){
+        this.goal = goal;
+    }
 }
 
 //helper function to generate random integers

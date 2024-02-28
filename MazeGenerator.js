@@ -58,7 +58,7 @@ class MazeGenerator {
                  //go back up the stack one, set to current node, pop from stack
                  this.currentTile.removeCurrent();
                  this.currentTile = this.stack.pop();
-                 console.log("4: ",this.currentTile);
+                //  console.log("4: ",this.currentTile);
 
                  //this.currentTile.setCurrent();
                
@@ -69,14 +69,14 @@ class MazeGenerator {
                 this.currentTile = this.findRandomTile(this.maze);
                 this.currentTile.setCurrent();
                 this.currentTile.setExplored();
-                console.log("3: ",this.currentTile);
+                // console.log("3: ",this.currentTile);
                 this.unexploredTiles--;
             }
             this.drawMaze(this.maze);
-            console.log(this.currentTile);
+            // console.log(this.currentTile);
             return false;
         } else {
-            console.log("Maze generation complete.");
+            // console.log("Maze generation complete.");
             this.maze.getGoal().setUnblocked();
             this.maze.getStart().setUnblocked();
             this.currentTile.removeCurrent();
@@ -86,6 +86,10 @@ class MazeGenerator {
         }
     }
 
+    getMaze(){
+        return this.maze;
+    }
+    
     neighbors(maze, tile) {
         let neighbors = [];
         let row = tile.getRow();

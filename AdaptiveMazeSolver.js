@@ -1,5 +1,5 @@
-class MazeSolver{
-    constructor(maze, canvas, ctx, Gtype, isAdaptive){
+class AdaptiveMazeSolver{
+    constructor(maze, canvas, ctx, Gtype = 0, goalSwap = 0){
         this.maze = maze;
         this.openList = []; //set of nodes to be evaluated
         this.openList.push(this.maze.getStart()); 
@@ -11,14 +11,14 @@ class MazeSolver{
         this.solution = [];
         this.Gtype = Gtype;
         this.totalExplored = 0;
-        this.isAdaptive = isAdaptive;
+        this.goalSwap = goalSwap;
     }
 
    
     step(){
         if(!this.destinationFound){
             if(this.openList.length == 0){
-                // console.log("No possible solution");
+                console.log("No possible solution");
                 this.destinationFound = true;
                 return -1;
             } 
@@ -35,9 +35,7 @@ class MazeSolver{
                 this.finalizePath();
                 // console.log(this.closedList);
                 this.totalExplored = Math.floor(this.closedList.length / 2);
-                if(this.isAdaptive){
-                    this.adaptive();
-                }
+                this.adaptive();
                 return this.maze;
             } else {
                 this.closedList.push(this.currentTile);
@@ -76,11 +74,23 @@ class MazeSolver{
         }
     }
 
+    adaptive(){
+        let current = this.currentTile; //should be the goal tile
+        let realCost = 0;
+        // console.log(current, "start current tile ");
+        while (current !== null) { //keep going until you reach the start
+            realCost++;
+            current.setValueH(realCost); //update its h value
+            current = current.getParent(); //move to the parent tile
+            // console.log(current, "parent");
+        }
+    }
+
     lowestCostF(openList) {
         //sort the openList by f_value primarily, then by g_value
         openList.sort((a, b) => {
             if (a.getValueF() === b.getValueF()) {
-                if(!this.Gtype){
+                if(this.Gtype == 0){
                     //sort g_value in descending order to favor paths closer to the goal
                     return b.getValueG() - a.getValueG();
                 } else {
@@ -95,17 +105,7 @@ class MazeSolver{
         return openList[0];
     }
     
-    adaptive(){
-        let current = this.currentTile; //should be the goal tile
-        let realCost = 0;
-        // console.log(current, "start current tile ");
-        while (current !== null) { //keep going until you reach the start
-            realCost++;
-            current.setValueH(realCost); //update its h value
-            current = current.getParent(); //move to the parent tile
-            // console.log(current, "parent");
-        }
-    }
+
 
     drawSolution(maze){
         //extract attributes
@@ -164,4 +164,4 @@ class MazeSolver{
     }
 }
 
-export default MazeSolver;
+export default AdaptiveMazeSolver;

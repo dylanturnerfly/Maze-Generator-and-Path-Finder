@@ -17,6 +17,7 @@ class Tile {
     //Special Colors
     setStart(){
         this.start = true;
+        this.goal = false;
         // this.explored = true;
     }
 
@@ -28,6 +29,11 @@ class Tile {
             // this.explored = true;
             return true;
         }
+    }
+
+    forceGoal(){
+        this.goal = true;
+        this.start = false;
     }
 
     isGoal(){
@@ -115,6 +121,10 @@ class Tile {
 
     setSolution(){
         this.solution = true;
+    }
+
+    removeSolution(){
+        this.solution = false;
     }
 }
 
