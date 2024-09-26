@@ -1,7 +1,6 @@
------Important Notes
-We understand that we did not implement A* the way that was intended in the assignment. Unfortunately we realized this too late and it could not make a switch in time. That being said our algorithm works very well and the adaptive search is effective as can be seen in our write up. In the future we will not make this mistake. This was a very fun assignment nonetheless, thanks <3
 
 
------ To run Code
+
+To run Code:
 To access the visualisation of the maze, right click on Homework1.html and click "Open with Live Server"
 This requires the Live Server VS Code extension. 
